@@ -1,10 +1,14 @@
 import HTTPStatus from 'http-status';
-import sequelize from 'sequelize';
+// import sequelize from 'sequelize';
 import User from './user.model';
+import Event from '../event/event.model';
 
 
 export const getUser = async (req, res) => {
-  const user = await User.findById(id);
+  const id = req.params.id;
+  const user = await User.findById(id, {
+    include: [Event],
+  });
   if (!user) {
     res.sendStatus(HTTPStatus.NOT_FOUND);
     return;
@@ -13,22 +17,22 @@ export const getUser = async (req, res) => {
 };
 
 
-export const register = async (req, res, next) => {
+export const register = async (req, res) => {
   try {
     const user = await User.create({
       name: req.body.name,
       password: req.body.password,
-      email: invite.email,
+      email: req.body.email,
     });
 
     const u = user.auth();
     return res.status(HTTPStatus.CREATED).json(u);
   } catch (ex) {
-    if (err) next(err);
+    return res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json(ex);
   }
 };
 
-export const login = async (req, res, next) => {
+export const login = async (req, res) => {
   try {
     const user = await User.findOne({ where: { email: req.body.email } });
 
@@ -40,7 +44,6 @@ export const login = async (req, res, next) => {
 
     return res.json(u);
   } catch (ex) {
-    if (err) next(err);
+    return res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json(ex);
   }
 };
-

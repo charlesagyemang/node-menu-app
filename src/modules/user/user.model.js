@@ -3,6 +3,8 @@
 import Sequelize from 'sequelize';
 import { hashSync, compareSync } from 'bcrypt-nodejs';
 import jwt from 'jsonwebtoken';
+import Event from '../event/event.model';
+
 
 import sequelize from '../../db';
 import constants from '../../config/constants';
@@ -55,5 +57,11 @@ User.prototype.toJson = function toJson() {
     changePasswordTokenDate: undefined,
   };
 };
+
+const fk = { foreignKey: 'userId' };
+
+User.hasMany(Event, fk);
+Event.belongsTo(User, fk);
+
 
 export default User;
