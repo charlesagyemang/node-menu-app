@@ -72,6 +72,24 @@ export const createCategory = async (server) => {
   return res;
 };
 
+export const createCategoryCustom = async (server, name) => {
+  const res = await request(server).post('/api/categories/create.new').send({
+    name,
+    description: '',
+    others: {
+      results: [
+        {
+          name: 'koobi',
+        },
+        {
+          name: 'kumi',
+        },
+      ],
+    },
+  });
+  return res;
+};
+
 // create item {specify type}
 export const createItem = async (server) => {
   const TYPE = [
@@ -98,7 +116,59 @@ export const createItem = async (server) => {
   });
   const { auth } = await login(server);
   const res = await request(server).get(`/api/items/${itemResponse.body.id}`).set(auth);
-  // const res = await request(server).get(`/api/categories/${ress.body.categoryId}`).set(auth);
+  return res;
+};
+
+// create item {specify type}
+export const createItemCustom = async (server, name, description, details) => {
+  const TYPE = [
+    'food',
+    'drink',
+  ];
+  const { body } = await createCategory(server);
+  const res = await request(server).post('/api/items/create.new').send({
+    type: TYPE[0],
+    categoryId: body.id,
+    details,
+    name,
+    description,
+    others: {
+      results: [
+        {
+          name: 'koobi',
+        },
+        {
+          name: 'kumi',
+        },
+      ],
+    },
+  });
+  return res;
+};
+
+
+export const createMenu = async (server) => {
+  // create items
+  const itemOne = await createItemCustom(server, 'Jollof', 'Jollof With Chicken', 'Two Plates');
+  const itemTwo = await createItemCustom(server, 'Coffe', 'No Sugar', 'Kenya Coffee');
+  const itemThree = await createItemCustom(server, 'Cake', 'Brown chocolate', 'Extra toppings');
+
+  // create categories
+  const categoryOne = await createCategoryCustom(server, 'Starters');
+  const categoryTwo = await createCategoryCustom(server, 'Main Course');
+  const categoryThree = await createCategoryCustom(server, 'Desserts');
+
+  const { auth, user } = await login(server);
+
+  const menuResponse = await request(server).post('/api/menus/create.new').send({
+    userId: user.id,
+    name: 'Special Menu One',
+    description: '15ml russian cavia',
+    categories: { results: [categoryOne.body, categoryTwo.body, categoryThree.body] },
+    items: { results: [itemOne.body, itemTwo.body, itemThree.body] },
+    others: { other: 'kuleke' },
+  });
+  const res = await request(server).get(`/api/menus/${menuResponse.body.id}`).set(auth);
   return res;
 };
 
