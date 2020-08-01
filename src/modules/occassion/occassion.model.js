@@ -1,5 +1,6 @@
 import Sequelize from 'sequelize';
 import sequelize from '../../db';
+import Response from '../responses/responses.model';
 
 // Refer to http://docs.sequelizejs.com/manual/models-definition.html
 // on how to define your model
@@ -30,5 +31,9 @@ Occassion.prototype.toJson = function toJson() {
   };
 };
 
+const fk = { foreignKey: 'occassionId' };
+
+Occassion.hasMany(Response, fk);
+Response.belongsTo(Occassion, fk);
 
 export default Occassion;

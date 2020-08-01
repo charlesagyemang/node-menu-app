@@ -2,7 +2,7 @@ import HTTPStatus from 'http-status';
 import Menu from './menu.model';
 
 export const getMenu = async (req, res) => {
-  const id = req.id;
+  const id = req.params.id;
 
   const menu = await Menu.findById(id);
   if (!menu) {
@@ -19,7 +19,7 @@ export const createMenu = async (req, res) => {
 };
 
 export const updateMenu = async (req, res) => {
-  const id = req.id;
+  const id = req.params.id;
 
   const menu = await Menu.findById(id);
   if (!menu) {
@@ -38,7 +38,7 @@ export const updateMenu = async (req, res) => {
 
 
 export const deleteMenu = async (req, res) => {
-  const id = req.id;
+  const id = req.params.id;
 
   const menu = await Menu.findById(id);
   if (!menu) {
@@ -50,4 +50,3 @@ export const deleteMenu = async (req, res) => {
 
   res.sendStatus(HTTPStatus.NO_CONTENT);
 };
-

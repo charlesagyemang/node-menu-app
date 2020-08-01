@@ -8,7 +8,7 @@ const Responses = sequelize.define('responses', {
   id: { type: Sequelize.STRING, primaryKey: true },
 
   // occasionId {string}
-  categoryId: { type: Sequelize.STRING, allowNull: false },
+  occassionId: { type: Sequelize.STRING, allowNull: false },
   // group {string}
   group: { type: Sequelize.STRING, allowNull: false },
   // name {string}

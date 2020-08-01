@@ -2,7 +2,7 @@ import HTTPStatus from 'http-status';
 import Responses from './responses.model';
 
 export const getResponses = async (req, res) => {
-  const id = req.id;
+  const id = req.params.id;
 
   const responses = await Responses.findById(id);
   if (!responses) {
@@ -19,7 +19,7 @@ export const createResponses = async (req, res) => {
 };
 
 export const updateResponses = async (req, res) => {
-  const id = req.id;
+  const id = req.params.id;
 
   const responses = await Responses.findById(id);
   if (!responses) {
@@ -38,7 +38,7 @@ export const updateResponses = async (req, res) => {
 
 
 export const deleteResponses = async (req, res) => {
-  const id = req.id;
+  const id = req.params.id;
 
   const responses = await Responses.findById(id);
   if (!responses) {
@@ -50,4 +50,3 @@ export const deleteResponses = async (req, res) => {
 
   res.sendStatus(HTTPStatus.NO_CONTENT);
 };
-

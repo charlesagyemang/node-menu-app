@@ -2,7 +2,7 @@ import HTTPStatus from 'http-status';
 import Category from './category.model';
 
 export const getCategory = async (req, res) => {
-  const id = req.id;
+  const id = req.params.id;
 
   const category = await Category.findById(id);
   if (!category) {
@@ -19,7 +19,7 @@ export const createCategory = async (req, res) => {
 };
 
 export const updateCategory = async (req, res) => {
-  const id = req.id;
+  const id = req.params.id;
 
   const category = await Category.findById(id);
   if (!category) {
@@ -38,7 +38,7 @@ export const updateCategory = async (req, res) => {
 
 
 export const deleteCategory = async (req, res) => {
-  const id = req.id;
+  const id = req.params.id;
 
   const category = await Category.findById(id);
   if (!category) {
@@ -50,4 +50,3 @@ export const deleteCategory = async (req, res) => {
 
   res.sendStatus(HTTPStatus.NO_CONTENT);
 };
-

@@ -1,6 +1,6 @@
 import Sequelize from 'sequelize';
 import sequelize from '../../db';
-
+import Occassion from '../occassion/occassion.model';
 // Refer to http://docs.sequelizejs.com/manual/models-definition.html
 // on how to define your model
 
@@ -29,5 +29,9 @@ Menu.prototype.toJson = function toJson() {
   };
 };
 
+const fk = { foreignKey: 'menuId' };
+
+Menu.hasMany(Occassion, fk);
+Occassion.belongsTo(Menu, fk);
 
 export default Menu;

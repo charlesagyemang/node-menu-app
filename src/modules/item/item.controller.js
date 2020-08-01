@@ -2,7 +2,7 @@ import HTTPStatus from 'http-status';
 import Item from './item.model';
 
 export const getItem = async (req, res) => {
-  const id = req.id;
+  const id = req.params.id;
 
   const item = await Item.findById(id);
   if (!item) {
@@ -19,7 +19,7 @@ export const createItem = async (req, res) => {
 };
 
 export const updateItem = async (req, res) => {
-  const id = req.id;
+  const id = req.params.id;
 
   const item = await Item.findById(id);
   if (!item) {
@@ -38,7 +38,7 @@ export const updateItem = async (req, res) => {
 
 
 export const deleteItem = async (req, res) => {
-  const id = req.id;
+  const id = req.params.id;
 
   const item = await Item.findById(id);
   if (!item) {
@@ -50,4 +50,3 @@ export const deleteItem = async (req, res) => {
 
   res.sendStatus(HTTPStatus.NO_CONTENT);
 };
-

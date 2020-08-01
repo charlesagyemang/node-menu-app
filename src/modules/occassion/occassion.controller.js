@@ -2,7 +2,7 @@ import HTTPStatus from 'http-status';
 import Occassion from './occassion.model';
 
 export const getOccassion = async (req, res) => {
-  const id = req.id;
+  const id = req.params.id;
 
   const occassion = await Occassion.findById(id);
   if (!occassion) {
@@ -19,7 +19,7 @@ export const createOccassion = async (req, res) => {
 };
 
 export const updateOccassion = async (req, res) => {
-  const id = req.id;
+  const id = req.params.id;
 
   const occassion = await Occassion.findById(id);
   if (!occassion) {
@@ -38,7 +38,7 @@ export const updateOccassion = async (req, res) => {
 
 
 export const deleteOccassion = async (req, res) => {
-  const id = req.id;
+  const id = req.params.id;
 
   const occassion = await Occassion.findById(id);
   if (!occassion) {
@@ -50,4 +50,3 @@ export const deleteOccassion = async (req, res) => {
 
   res.sendStatus(HTTPStatus.NO_CONTENT);
 };
-

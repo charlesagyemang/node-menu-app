@@ -1,5 +1,6 @@
 import Sequelize from 'sequelize';
 import sequelize from '../../db';
+import Item from '../item/item.model';
 
 // Refer to http://docs.sequelizejs.com/manual/models-definition.html
 // on how to define your model
@@ -26,5 +27,9 @@ Category.prototype.toJson = function toJson() {
   };
 };
 
+const fk = { foreignKey: 'categoryId' };
+
+Category.hasMany(Item, fk);
+Item.belongsTo(Category, fk);
 
 export default Category;

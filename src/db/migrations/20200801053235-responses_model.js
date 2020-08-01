@@ -5,7 +5,7 @@ module.exports = {
     id: { type: Sequelize.STRING, allowNull: false, primaryKey: true },
 
     // occasionId {string}
-    categoryId: { type: Sequelize.STRING,
+    occassionId: { type: Sequelize.STRING,
       allowNull: false,
       onDelete: 'CASCADE',
       onUpdate: 'CASCADE',
