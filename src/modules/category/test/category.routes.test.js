@@ -33,8 +33,8 @@ describe('Category:Routes', async () => {
   });
 
   it.only('Delete A Category Successfully', async () => {
-    const { auth } = await login(server);
     const { body } = await createCategory(server);
+    const { auth } = await login(server);
     await request(server).delete(`/api/categories/${body.id}`).set(auth);
     const { status } = await request(server).get(`/api/categories/${body.id}`).set(auth);
     expect(status).toBe(404);

@@ -41,10 +41,16 @@ export const login = async (server) => {
 
 export const editRecord = async (server, url, recordId, editBody) => {
   const { auth } = await login(server);
-  // console.log(auth);
   await request(server).patch(`${url}${recordId}`).send(editBody).set(auth);
   const res = await request(server).get(`${url}${recordId}`).set(auth);
   return res;
+};
+
+export const deleteRecord = async (server, url, recordId) => {
+  const { auth } = await login(server);
+  await request(server).delete(`${url}${recordId}`).set(auth);
+  const { status } = await request(server).get(`${url}${recordId}`).set(auth);
+  return status;
 };
 
 // create category first

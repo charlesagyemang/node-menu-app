@@ -1,5 +1,5 @@
 // import request from 'supertest-as-promised';
-import { nuke, createItem, editRecord } from '../../../helpers/test_helpers';
+import { nuke, createItem, editRecord, deleteRecord } from '../../../helpers/test_helpers';
 import server from '../../../server';
 
 describe('Item:Routes', async () => {
@@ -17,7 +17,7 @@ describe('Item:Routes', async () => {
     expect(body.others).toHaveProperty('results');
   });
 
-  it.only('Edit And Get A Category Successfully', async () => {
+  it.skip('Edit And Get A Item Successfully', async () => {
     const { body } = await createItem(server);
     const res = await editRecord(
       server,
@@ -37,5 +37,16 @@ describe('Item:Routes', async () => {
     expect(res.body.name).toBe('Irish Special Wine');
     expect(res.body.description).toBe('half glass');
     expect(res.body.details).toBe('1956 Marini');
+  });
+
+
+  it.only('Delete An Item Successfully', async () => {
+    const { body } = await createItem(server);
+    const status = await deleteRecord(
+      server,
+      '/api/items/',
+      body.id,
+    );
+    expect(status).toBe(404);
   });
 });
