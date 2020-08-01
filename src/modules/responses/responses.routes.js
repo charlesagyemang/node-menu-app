@@ -7,7 +7,7 @@ import { authJwt } from '../../config/passport';
 const ResponsesRouter = Router();
 
 ResponsesRouter.get('/:id', authJwt, c.getResponses);
-ResponsesRouter.post('/', validate(v.createResponses), c.createResponses);
+ResponsesRouter.post('/create.new', validate(v.createResponses), c.createResponses);
 ResponsesRouter.patch('/:id', validate(v.updateResponses), authJwt, c.updateResponses);
 ResponsesRouter.delete('/:id', authJwt, c.deleteResponses);
 

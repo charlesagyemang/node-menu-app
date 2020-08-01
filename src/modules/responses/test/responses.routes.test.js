@@ -1,7 +1,5 @@
-import HTTPStatus from 'http-status';
-import request from 'supertest-as-promised';
-import { nuke } from '../../../helpers/test_helpers';
-import Responses from '../responses.model';
+
+import { nuke, createResponse } from '../../../helpers/test_helpers';
 import server from '../../../server';
 
 describe('Responses:Routes', async () => {
@@ -9,14 +7,10 @@ describe('Responses:Routes', async () => {
     await nuke();
   });
 
-  it.skip('skip this test', async () => {
-    const responses = await Responses.create({
-          //
-    });
-
-    const res = await request(server).get('/api/responses/');
-
-    expect(res.statusCode).toBe(HTTPStatus.OK);
-    expect(res.body.id).toBe(responses.id);
+  it.only('Create An Occassion And Fetch Successfully', async () => {
+    const { status, body } = await createResponse(server);
+    console.log(body);
+    console.log(status);
+    expect(status).toBe(201);
   });
 });

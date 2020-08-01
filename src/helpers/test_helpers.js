@@ -197,4 +197,44 @@ export const createOccassion = async (server) => {
   return res;
 };
 
+// create an occassion
+export const createOccassionCustomResponse = async (server) => {
+  const menu = await createMenu(server);
+  const occassionResponse = await request(server).post('/api/occassions/create.new').send({
+    menuId: menu.body.id,
+    name: 'Ghana insurance Awards 2020',
+    description: 'Best Insurance Awards 2020',
+    groupings: {
+      results: [
+        'SIC',
+        'Ghana Commercial Bank',
+      ],
+    },
+    others: {
+      date: '13 march 3030',
+    },
+  });
+
+  const { auth } = await login(server);
+  const res = await request(server).get(`/api/occassions/${occassionResponse.body.id}`).set(auth);
+  return {
+    body: res.body,
+    menu: menu.body,
+    ress: res,
+  };
+};
+
 // create responses
+export const createResponse = async (server) => {
+  const { body, menu } = await createOccassionCustomResponse(server);
+  const createResponseResponse = await request(server).post('/api/responses/create.new').send({
+    occassionId: body.id,
+    group: 'SIC',
+    name: 'Paul Simpson',
+    categories: { results: [...menu.categories.results] },
+    items: { results: [...menu.items.results] },
+    others: { lakula: 'hala' },
+  });
+
+  return createResponseResponse;
+};
