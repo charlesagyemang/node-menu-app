@@ -9,7 +9,7 @@ module.exports = {
       allowNull: false,
       onDelete: 'CASCADE',
       onUpdate: 'CASCADE',
-      references: { model: 'occasions', key: 'id' } },
+      references: { model: 'occassions', key: 'id' } },
     // group {string}
     group: { type: Sequelize.STRING, allowNull: false },
     // name {string}
