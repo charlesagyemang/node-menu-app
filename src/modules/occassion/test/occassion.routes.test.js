@@ -1,4 +1,4 @@
-import { nuke, createOccassion, editRecord } from '../../../helpers/test_helpers';
+import { nuke, createOccassion, editRecord, deleteRecord } from '../../../helpers/test_helpers';
 import server from '../../../server';
 
 describe('Occassion:Routes', async () => {
@@ -18,22 +18,32 @@ describe('Occassion:Routes', async () => {
 
   it.skip('Edit And Get An Occassion Successfully', async () => {
     const { body } = await createOccassion(server);
-    const groups = ['GCB', 'Unique Trust'];
+    const groups = ['GCB', 'Unique Trust', 'ADB'];
 
     const res = await editRecord(
       server,
       '/api/occassions/',
       body.id,
       {
-        name: 'Ghana insurance Awards 2020',
+        name: 'Ghana insurance Awards 2021',
         description: 'Best Insurance Awards 2021',
         groupings: { results: [...body.groupings.results, ...groups] },
       },
     );
 
     console.log(res.body);
-    // expect(res.body.categories.results.length).toBe(4);
-    // expect(res.body.name).toBe('Special Menu Two');
-    // expect(res.body.description).toBe('very Special Menu');
+    expect(res.body.groupings.results.length).toBe(5);
+    expect(res.body.name).toBe('Ghana insurance Awards 2021');
+    expect(res.body.description).toBe('Best Insurance Awards 2021');
+  });
+
+  it.skip('Delete An Occassion Successfully', async () => {
+    const { body } = await createOccassion(server);
+    const status = await deleteRecord(
+      server,
+      '/api/occassions/',
+      body.id,
+    );
+    expect(status).toBe(404);
   });
 });
