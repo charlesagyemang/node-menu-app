@@ -29,7 +29,7 @@ User.prototype._createToken = function createToken() {
   return jwt.sign({
     id: this.id,
   }, constants.JWT_SECRET, {
-    expiresIn: '8h',
+    expiresIn: '72h',
   });
 };
 

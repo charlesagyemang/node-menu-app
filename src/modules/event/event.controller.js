@@ -19,6 +19,38 @@ export const getEvent = async (req, res) => {
   res.status(HTTPStatus.OK).json(event);
 };
 
+export const getAllEvents = async (req, res) => {
+  const events = await Event.findAll({ where: {},
+    include: [User, Attendee],
+  });
+
+  res.status(HTTPStatus.OK).json(events);
+};
+
+export const getAllEventsInPages = async (req, res) => {
+  const page = req.params._page;
+  const limit = req.params._limit;
+
+  const offset = (page * limit) - limit;
+
+  // console.log('offset======', offset);
+  // console.log('Page======', page);
+  // console.log('limit======', limit);
+
+  const events = await Event.findAndCountAll({
+    limit,
+    offset,
+    where: {},
+    include: [User, Attendee],
+    order: [
+      ['createdAt', 'DESC'], // Sorts by COLUMN_NAME_EXAMPLE in ascending order
+    ],
+  });
+
+  res.status(HTTPStatus.OK).json(events);
+};
+
+
 export const createEvent = async (req, res) => {
   const event = await Event.create({ ...req.body });
 
