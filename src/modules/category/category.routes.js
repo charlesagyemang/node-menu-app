@@ -7,7 +7,7 @@ import { authJwt } from '../../config/passport';
 const CategoryRouter = Router();
 
 CategoryRouter.get('/:id', authJwt, c.getCategory);
-CategoryRouter.post('/', validate(v.createCategory), c.createCategory);
+CategoryRouter.post('/create.new', validate(v.createCategory), c.createCategory);
 CategoryRouter.patch('/:id', validate(v.updateCategory), authJwt, c.updateCategory);
 CategoryRouter.delete('/:id', authJwt, c.deleteCategory);
 

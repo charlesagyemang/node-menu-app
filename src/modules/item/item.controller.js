@@ -1,15 +1,18 @@
 import HTTPStatus from 'http-status';
 import Item from './item.model';
+import Category from '../category/category.model';
 
 export const getItem = async (req, res) => {
   const id = req.params.id;
 
-  const item = await Item.findById(id);
+  const item = await Item.findById(id, {
+    include: [Category],
+  });
   if (!item) {
     res.sendStatus(HTTPStatus.NOT_FOUND);
     return;
   }
-  res.send(item);
+  res.status(HTTPStatus.OK).send(item);
 };
 
 export const createItem = async (req, res) => {

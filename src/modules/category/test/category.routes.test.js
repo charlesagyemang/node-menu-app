@@ -1,7 +1,5 @@
-import HTTPStatus from 'http-status';
 import request from 'supertest-as-promised';
-import { nuke } from '../../../helpers/test_helpers';
-import Category from '../category.model';
+import { nuke, createCategory, editRecord, login } from '../../../helpers/test_helpers';
 import server from '../../../server';
 
 describe('Category:Routes', async () => {
@@ -9,14 +7,36 @@ describe('Category:Routes', async () => {
     await nuke();
   });
 
-  it.skip('skip this test', async () => {
-    const category = await Category.create({
-          //
-    });
+  it.skip('Create A Category Successfully', async () => {
+    const res = await createCategory(server);
+    expect(res.status).toBe(201);
+    expect(res.body).toHaveProperty('id');
+    expect(res.body.name).toBe('Starters');
+    expect(res.body.others).toHaveProperty('results');
+  });
 
-    const res = await request(server).get('/api/category/');
+  it.skip('Edit A Category Successfully', async () => {
+    const categoryResponse = await createCategory(server);
+    const res = await editRecord(
+      server,
+      '/api/categories/',
+      categoryResponse.body.id,
+      {
+        name: 'Dessert',
+        description: 'Muntae',
+      },
+    );
+    expect(res.status).toBe(200);
+    expect(res.body).toHaveProperty('name');
+    expect(res.body.name).toBe('Dessert');
+    expect(res.body.others).toHaveProperty('results');
+  });
 
-    expect(res.statusCode).toBe(HTTPStatus.OK);
-    expect(res.body.id).toBe(category.id);
+  it.only('Delete A Category Successfully', async () => {
+    const { auth } = await login(server);
+    const { body } = await createCategory(server);
+    await request(server).delete(`/api/categories/${body.id}`).set(auth);
+    const { status } = await request(server).get(`/api/categories/${body.id}`).set(auth);
+    expect(status).toBe(404);
   });
 });

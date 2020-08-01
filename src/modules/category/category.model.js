@@ -1,6 +1,7 @@
 import Sequelize from 'sequelize';
 import sequelize from '../../db';
 import Item from '../item/item.model';
+import { convertToHumanReadableDate } from '../../helpers/helper';
 
 // Refer to http://docs.sequelizejs.com/manual/models-definition.html
 // on how to define your model
@@ -21,9 +22,12 @@ const Category = sequelize.define('categories', {
 
 });
 
+
 Category.prototype.toJson = function toJson() {
   return {
     ...this.get({ plain: true }),
+    dateCreated: convertToHumanReadableDate(this.createdAt),
+    dateEdited: convertToHumanReadableDate(this.updatedAt),
   };
 };
 

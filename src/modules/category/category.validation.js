@@ -4,7 +4,7 @@ export default {
   createCategory: {
     body: {
       name: Joi.string().required(),
-      description: Joi.string(),
+      description: Joi.string().allow(''),
       others: Joi.object(),
     },
   },
