@@ -3,14 +3,16 @@ import Joi from 'joi';
 export default {
   createCategory: {
     body: {
-      // email: Joi.string().email().required(),
-      // password: Joi.string().min(6).max(60).required(),
+      name: Joi.string().required(),
+      description: Joi.string(),
+      others: Joi.object(),
     },
   },
   updateCategory: {
     body: {
-      // email: Joi.string().email(),
-      // password: Joi.string().min(6).max(60),
+      name: Joi.string(),
+      description: Joi.string(),
+      others: Joi.object(),
     },
   },
 };

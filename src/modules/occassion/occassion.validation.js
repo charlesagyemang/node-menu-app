@@ -3,14 +3,20 @@ import Joi from 'joi';
 export default {
   createOccassion: {
     body: {
-      // email: Joi.string().email().required(),
-      // password: Joi.string().min(6).max(60).required(),
+      menuId: Joi.string().required(),
+      name: Joi.string().required(),
+      description: Joi.string(),
+      groupings: Joi.object().required(),
+      others: Joi.object(),
     },
   },
   updateOccassion: {
     body: {
-      // email: Joi.string().email(),
-      // password: Joi.string().min(6).max(60),
+      menuId: Joi.string(),
+      name: Joi.string(),
+      description: Joi.string(),
+      groupings: Joi.object(),
+      others: Joi.object(),
     },
   },
 };

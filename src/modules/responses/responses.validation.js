@@ -3,14 +3,22 @@ import Joi from 'joi';
 export default {
   createResponses: {
     body: {
-      // email: Joi.string().email().required(),
-      // password: Joi.string().min(6).max(60).required(),
+      occassionId: Joi.string().required(),
+      group: Joi.string().required(),
+      name: Joi.string().required(),
+      categories: Joi.object().required(),
+      items: Joi.object().required(),
+      others: Joi.object(),
     },
   },
   updateResponses: {
     body: {
-      // email: Joi.string().email(),
-      // password: Joi.string().min(6).max(60),
+      occassionId: Joi.string(),
+      group: Joi.string(),
+      name: Joi.string(),
+      categories: Joi.object(),
+      items: Joi.object(),
+      others: Joi.object(),
     },
   },
 };
