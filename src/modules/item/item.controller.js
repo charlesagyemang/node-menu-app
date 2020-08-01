@@ -1,0 +1,53 @@
+import HTTPStatus from 'http-status';
+import Item from './item.model';
+
+export const getItem = async (req, res) => {
+  const id = req.id;
+
+  const item = await Item.findById(id);
+  if (!item) {
+    res.sendStatus(HTTPStatus.NOT_FOUND);
+    return;
+  }
+  res.send(item);
+};
+
+export const createItem = async (req, res) => {
+  const item = await Item.create({ ...req.body });
+
+  res.status(HTTPStatus.CREATED).json(item);
+};
+
+export const updateItem = async (req, res) => {
+  const id = req.id;
+
+  const item = await Item.findById(id);
+  if (!item) {
+    res.sendStatus(HTTPStatus.NOT_FOUND);
+    return;
+  }
+
+  Object.keys(req.body).forEach((key) => {
+    item[key] = req.body[key];
+  });
+
+  await item.save();
+
+  res.status(HTTPStatus.OK).json(item.toJson());
+};
+
+
+export const deleteItem = async (req, res) => {
+  const id = req.id;
+
+  const item = await Item.findById(id);
+  if (!item) {
+    res.sendStatus(HTTPStatus.NOT_FOUND);
+    return;
+  }
+
+  await item.destroy();
+
+  res.sendStatus(HTTPStatus.NO_CONTENT);
+};
+
