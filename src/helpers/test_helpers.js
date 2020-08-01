@@ -147,6 +147,7 @@ export const createItemCustom = async (server, name, description, details) => {
 };
 
 
+// create a menu
 export const createMenu = async (server) => {
   // create items
   const itemOne = await createItemCustom(server, 'Jollof', 'Jollof With Chicken', 'Two Plates');
@@ -158,7 +159,7 @@ export const createMenu = async (server) => {
   const categoryTwo = await createCategoryCustom(server, 'Main Course');
   const categoryThree = await createCategoryCustom(server, 'Desserts');
 
-  const { auth, user } = await login(server);
+  const { user } = await login(server);
 
   const menuResponse = await request(server).post('/api/menus/create.new').send({
     userId: user.id,
@@ -168,14 +169,32 @@ export const createMenu = async (server) => {
     items: { results: [itemOne.body, itemTwo.body, itemThree.body] },
     others: { other: 'kuleke' },
   });
-  const res = await request(server).get(`/api/menus/${menuResponse.body.id}`).set(auth);
+  // const res = await request(server).get(`/api/menus/${menuResponse.body.id}`).set(auth);
+  return menuResponse;
+};
+
+
+// create an occassion
+export const createOccassion = async (server) => {
+  const menu = await createMenu(server);
+  const occassionResponse = await request(server).post('/api/occassions/create.new').send({
+    menuId: menu.body.id,
+    name: 'Ghana insurance Awards 2020',
+    description: 'Best Insurance Awards 2020',
+    groupings: {
+      results: [
+        'SIC',
+        'Ghana Commercial Bank',
+      ],
+    },
+    others: {
+      date: '13 march 3030',
+    },
+  });
+
+  const { auth } = await login(server);
+  const res = await request(server).get(`/api/occassions/${occassionResponse.body.id}`).set(auth);
   return res;
 };
 
-// create a menu
-
-// create an occassion
-
 // create responses
-
-// create a user and return simple stuff
