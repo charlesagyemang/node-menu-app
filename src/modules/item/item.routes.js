@@ -7,6 +7,7 @@ import { authJwt } from '../../config/passport';
 const ItemRouter = Router();
 
 ItemRouter.get('/:id', authJwt, c.getItem);
+ItemRouter.get('/get/all', authJwt, c.getAllItemRecords);
 ItemRouter.post('/create.new', validate(v.createItem), c.createItem);
 ItemRouter.patch('/:id', validate(v.updateItem), authJwt, c.updateItem);
 ItemRouter.delete('/:id', authJwt, c.deleteItem);

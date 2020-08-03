@@ -15,6 +15,19 @@ export const getItem = async (req, res) => {
   res.status(HTTPStatus.OK).send(item);
 };
 
+export const getAllItemRecords = async (req, res) => {
+  const categories = await Item.findAndCountAll({
+    limit: 100,
+    offset: 0,
+    where: {},
+    include: [Category],
+    order: [
+      ['createdAt', 'DESC'],
+    ],
+  });
+  res.status(HTTPStatus.OK).json(categories);
+};
+
 export const createItem = async (req, res) => {
   const item = await Item.create({ ...req.body });
 

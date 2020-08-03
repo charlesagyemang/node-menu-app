@@ -7,8 +7,9 @@ describe('Category:Routes', async () => {
     await nuke();
   });
 
-  it.skip('Create A Category Successfully', async () => {
+  it.only('Create A Category Successfully', async () => {
     const res = await createCategory(server);
+    console.log(res.body);
     expect(res.status).toBe(201);
     expect(res.body).toHaveProperty('id');
     expect(res.body.name).toBe('Starters');

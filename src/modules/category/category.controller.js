@@ -16,6 +16,19 @@ export const getCategory = async (req, res) => {
   res.status(HTTPStatus.OK).json(category.toJson());
 };
 
+export const getAllCategoryRecords = async (req, res) => {
+  const categories = await Category.findAndCountAll({
+    limit: 100,
+    offset: 0,
+    where: {},
+    include: [Item],
+    order: [
+      ['createdAt', 'DESC'],
+    ],
+  });
+  res.status(HTTPStatus.OK).json(categories);
+};
+
 export const createCategory = async (req, res) => {
   const category = await Category.create({ ...req.body });
 
