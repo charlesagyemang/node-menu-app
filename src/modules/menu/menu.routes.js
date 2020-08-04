@@ -7,6 +7,7 @@ import { authJwt } from '../../config/passport';
 const MenuRouter = Router();
 
 MenuRouter.get('/:id', authJwt, c.getMenu);
+MenuRouter.get('/get/all', authJwt, c.getAllMenuRecords);
 MenuRouter.post('/create.new', validate(v.createMenu), c.createMenu);
 MenuRouter.patch('/:id', validate(v.updateMenu), authJwt, c.updateMenu);
 MenuRouter.delete('/:id', authJwt, c.deleteMenu);

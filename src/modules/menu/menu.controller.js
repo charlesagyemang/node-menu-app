@@ -12,6 +12,18 @@ export const getMenu = async (req, res) => {
   res.send(menu);
 };
 
+export const getAllMenuRecords = async (req, res) => {
+  const categories = await Menu.findAndCountAll({
+    limit: 100,
+    offset: 0,
+    where: {},
+    order: [
+      ['createdAt', 'DESC'],
+    ],
+  });
+  res.status(HTTPStatus.OK).json(categories);
+};
+
 export const createMenu = async (req, res) => {
   const menu = await Menu.create({ ...req.body });
 

@@ -1,5 +1,7 @@
 import HTTPStatus from 'http-status';
 import Occassion from './occassion.model';
+import Menu from '../menu/menu.model';
+
 
 export const getOccassion = async (req, res) => {
   const id = req.params.id;
@@ -10,6 +12,19 @@ export const getOccassion = async (req, res) => {
     return;
   }
   res.send(occassion);
+};
+
+export const getAllOccasionRecords = async (req, res) => {
+  const categories = await Occassion.findAndCountAll({
+    limit: 100,
+    offset: 0,
+    where: {},
+    include: [Menu],
+    order: [
+      ['createdAt', 'DESC'],
+    ],
+  });
+  res.status(HTTPStatus.OK).json(categories);
 };
 
 export const createOccassion = async (req, res) => {
