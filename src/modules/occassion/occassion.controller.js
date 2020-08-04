@@ -1,12 +1,16 @@
 import HTTPStatus from 'http-status';
 import Occassion from './occassion.model';
 import Menu from '../menu/menu.model';
+import Response from '../responses/responses.model';
+import pusher from '../../config/pusher';
 
 
 export const getOccassion = async (req, res) => {
   const id = req.params.id;
 
-  const occassion = await Occassion.findById(id);
+  const occassion = await Occassion.findById(id, {
+    include: [Menu, Response],
+  });
   if (!occassion) {
     res.sendStatus(HTTPStatus.NOT_FOUND);
     return;
@@ -19,11 +23,16 @@ export const getAllOccasionRecords = async (req, res) => {
     limit: 100,
     offset: 0,
     where: {},
-    include: [Menu],
+    include: [Menu, Response],
     order: [
       ['createdAt', 'DESC'],
     ],
   });
+
+  pusher.trigger('occassions', 'get-all', {
+    message: 'occassions gotten',
+  });
+
   res.status(HTTPStatus.OK).json(categories);
 };
 
@@ -36,7 +45,9 @@ export const createOccassion = async (req, res) => {
 export const updateOccassion = async (req, res) => {
   const id = req.params.id;
 
-  const occassion = await Occassion.findById(id);
+  const occassion = await Occassion.findById(id, {
+    include: [Menu, Response],
+  });
   if (!occassion) {
     res.sendStatus(HTTPStatus.NOT_FOUND);
     return;

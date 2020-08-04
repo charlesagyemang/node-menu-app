@@ -3,7 +3,6 @@ import Event from './event.model';
 import User from '../user/user.model';
 import Attendee from '../attendee/attendee.model';
 
-
 export const getEvent = async (req, res) => {
   const id = req.params.id;
 

@@ -1,5 +1,9 @@
 import HTTPStatus from 'http-status';
 import Responses from './responses.model';
+import Menu from '../menu/menu.model';
+import Occassion from '../occassion/occassion.model';
+import pusher from '../../config/pusher';
+
 
 export const getResponses = async (req, res) => {
   const id = req.params.id;
@@ -13,9 +17,22 @@ export const getResponses = async (req, res) => {
 };
 
 export const createResponses = async (req, res) => {
-  const responses = await Responses.create({ ...req.body });
+  const response = await Responses.create({ ...req.body });
 
-  res.status(HTTPStatus.CREATED).json(responses);
+  const occassion = await Occassion.findById(req.body.occassionId, {
+    include: [Menu, Responses],
+  });
+
+  if (!occassion) {
+    res.sendStatus(HTTPStatus.NOT_FOUND);
+    return;
+  }
+
+  pusher.trigger('response', `create-reponse${req.body.occassionId}`, {
+    response,
+  });
+
+  res.status(HTTPStatus.OK).json(occassion);
 };
 
 export const updateResponses = async (req, res) => {
