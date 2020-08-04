@@ -17,22 +17,21 @@ export const getResponses = async (req, res) => {
 };
 
 export const createResponses = async (req, res) => {
-  const response = await Responses.create({ ...req.body });
+  await Responses.create({ ...req.body });
 
   const occassion = await Occassion.findById(req.body.occassionId, {
     include: [Menu, Responses],
   });
 
   if (!occassion) {
-    res.sendStatus(HTTPStatus.NOT_FOUND);
-    return;
+    return res.sendStatus(HTTPStatus.NOT_FOUND);
   }
 
-  pusher.trigger('response', `create-reponse${req.body.occassionId}`, {
-    response,
+  await pusher.trigger('response', 'create-response', {
+    occassion,
   });
 
-  res.status(HTTPStatus.OK).json(occassion);
+  return res.status(HTTPStatus.OK).json(occassion);
 };
 
 export const updateResponses = async (req, res) => {
