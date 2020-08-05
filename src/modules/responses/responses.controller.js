@@ -17,7 +17,7 @@ export const getResponses = async (req, res) => {
 };
 
 export const createResponses = async (req, res) => {
-  await Responses.create({ ...req.body });
+  const response = await Responses.create({ ...req.body });
 
   const occassion = await Occassion.findById(req.body.occassionId, {
     include: [Menu, Responses],
@@ -27,8 +27,8 @@ export const createResponses = async (req, res) => {
     return res.sendStatus(HTTPStatus.NOT_FOUND);
   }
 
-  await pusher.trigger('response', 'create-response', {
-    occassion,
+  pusher.trigger('milkyTwo', `${req.body.occassionId}`, {
+    response,
   });
 
   return res.status(HTTPStatus.OK).json(occassion);
