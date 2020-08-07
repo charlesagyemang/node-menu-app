@@ -8,6 +8,7 @@ import OccassionRouter from '../occassion/occassion.routes';
 import CategoryRouter from '../category/category.routes';
 import ItemRouter from '../item/item.routes';
 import ResponsesRouter from '../responses/responses.routes';
+import StatisticsRouter from '../statistics/statistics.routes';
 
 // Declare Router
 const apiRouter = Router();
@@ -28,5 +29,6 @@ apiRouter.use('/occassions', OccassionRouter);
 apiRouter.use('/categories', CategoryRouter);
 apiRouter.use('/items', ItemRouter);
 apiRouter.use('/responses', ResponsesRouter);
+apiRouter.use('/statistics', StatisticsRouter);
 
 export default apiRouter;

@@ -4,7 +4,7 @@ import { authJwt } from '../../config/passport';
 
 const StatisticsRouter = Router();
 
-StatisticsRouter.get('/', authJwt, c.getResponses);
+StatisticsRouter.get('/', c.getResponses);
 
 
 export default StatisticsRouter;
