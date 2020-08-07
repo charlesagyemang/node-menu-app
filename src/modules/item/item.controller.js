@@ -37,7 +37,9 @@ export const createItem = async (req, res) => {
 export const updateItem = async (req, res) => {
   const id = req.params.id;
 
-  const item = await Item.findById(id);
+  const item = await Item.findById(id, {
+    include: [Category],
+  });
   if (!item) {
     res.sendStatus(HTTPStatus.NOT_FOUND);
     return;
@@ -49,7 +51,7 @@ export const updateItem = async (req, res) => {
 
   await item.save();
 
-  res.status(HTTPStatus.OK).json(item.toJson());
+  res.status(HTTPStatus.OK).json(item);
 };
 
 
