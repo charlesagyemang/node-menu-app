@@ -5,38 +5,29 @@ import Responses from '../responses/responses.model';
 import Item from '../item/item.model';
 import Category from '../category/category.model';
 import User from '../user/user.model';
-// import pusher from '../../config/pusher';
-
 
 export const getResponses = async (req, res) => {
-  const responses = await Responses.findAndCountAll({
+  const responseCount = await Responses.count({
     where: {},
   });
-  const occassions = await Occassion.findAndCountAll({
+  const occassionCount = await Occassion.count({
     where: {},
   });
-  const menus = await Menu.findAndCountAll({
-    where: {},
-  });
-
-  const menuItems = await Item.findAndCountAll({
+  const menuCount = await Menu.count({
     where: {},
   });
 
-  const users = await User.findAndCountAll({
+  const menuItemCount = await Item.count({
     where: {},
   });
 
-  const categories = await Category.findAndCountAll({
+  const userCount = await User.count({
     where: {},
   });
 
-  const responseCount = responses.count;
-  const occassionCount = occassions.count;
-  const menuCount = menus.count;
-  const categoryCount = categories.count;
-  const menuItemCount = menuItems.count;
-  const userCount = users.count;
+  const categoryCount = await Category.count({
+    where: {},
+  });
 
   // console.log(responses);
   res.status(HTTPStatus.OK).json({
