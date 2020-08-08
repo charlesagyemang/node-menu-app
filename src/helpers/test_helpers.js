@@ -189,6 +189,7 @@ export const createOccassion = async (server) => {
     },
     others: {
       date: '13 march 3030',
+      infoId: 'Kubu',
     },
   });
 
@@ -212,6 +213,7 @@ export const createOccassionCustomResponse = async (server) => {
     },
     others: {
       date: '13 march 3030',
+      infoId: 'Kubu',
     },
   });
 

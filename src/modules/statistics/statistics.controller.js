@@ -5,6 +5,7 @@ import Responses from '../responses/responses.model';
 import Item from '../item/item.model';
 import Category from '../category/category.model';
 import User from '../user/user.model';
+import sequelize from '../../db';
 
 export const getResponses = async (req, res) => {
   const responseCount = await Responses.count({
@@ -29,6 +30,16 @@ export const getResponses = async (req, res) => {
     where: {},
   });
 
+
+  // const occassionCount3 = await Occassion.findAndCountAll({
+  //   where: {
+  //     others: {
+  //       infoId: {
+  //         [sequelize.Op.like]: 'Kub%',
+  //       },
+  //     }, // where ends
+  //   },
+  // });
   // console.log(responses);
   res.status(HTTPStatus.OK).json({
     responseCount,
@@ -38,4 +49,6 @@ export const getResponses = async (req, res) => {
     menuItemCount,
     userCount,
   });
+
+  // res.send(occassionCount3);
 };
