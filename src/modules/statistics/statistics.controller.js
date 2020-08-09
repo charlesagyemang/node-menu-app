@@ -13,7 +13,7 @@ export const getResponses = async (req, res) => {
   const responseCount = await Responses.count({
     where: {
       others: {
-        creatorId: {
+        createdForId: {
           [sequelize.Op.like]: creatorId,
         },
       }, // where ends
@@ -30,7 +30,11 @@ export const getResponses = async (req, res) => {
   });
   const menuCount = await Menu.count({
     where: {
-      userId: creatorId,
+      others: {
+        creatorId: {
+          [sequelize.Op.like]: creatorId,
+        },
+      }, // where ends
     },
   });
 
