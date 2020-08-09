@@ -6,20 +6,42 @@ import Item from '../item/item.model';
 import Category from '../category/category.model';
 import User from '../user/user.model';
 import sequelize from '../../db';
+// import { queryParams } from '../../helpers/helper'
 
 export const getResponses = async (req, res) => {
+  const creatorId = req.query.creatorId;
   const responseCount = await Responses.count({
-    where: {},
+    where: {
+      others: {
+        creatorId: {
+          [sequelize.Op.like]: creatorId,
+        },
+      }, // where ends
+    },
   });
   const occassionCount = await Occassion.count({
-    where: {},
+    where: {
+      others: {
+        creatorId: {
+          [sequelize.Op.like]: creatorId,
+        },
+      }, // where ends
+    },
   });
   const menuCount = await Menu.count({
-    where: {},
+    where: {
+      userId: creatorId,
+    },
   });
 
   const menuItemCount = await Item.count({
-    where: {},
+    where: {
+      others: {
+        creatorId: {
+          [sequelize.Op.like]: creatorId,
+        },
+      }, // where ends
+    },
   });
 
   const userCount = await User.count({
@@ -27,20 +49,15 @@ export const getResponses = async (req, res) => {
   });
 
   const categoryCount = await Category.count({
-    where: {},
+    where: {
+      others: {
+        creatorId: {
+          [sequelize.Op.like]: creatorId,
+        },
+      }, // where ends
+    },
   });
 
-
-  // const occassionCount3 = await Occassion.findAndCountAll({
-  //   where: {
-  //     others: {
-  //       infoId: {
-  //         [sequelize.Op.like]: 'Kub%',
-  //       },
-  //     }, // where ends
-  //   },
-  // });
-  // console.log(responses);
   res.status(HTTPStatus.OK).json({
     responseCount,
     occassionCount,
