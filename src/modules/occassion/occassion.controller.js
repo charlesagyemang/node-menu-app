@@ -3,6 +3,7 @@ import Occassion from './occassion.model';
 import Menu from '../menu/menu.model';
 import Response from '../responses/responses.model';
 import pusher from '../../config/pusher';
+import sequelize from '../../db';
 
 
 export const getOccassion = async (req, res) => {
@@ -19,10 +20,17 @@ export const getOccassion = async (req, res) => {
 };
 
 export const getAllOccasionRecords = async (req, res) => {
+  const creatorId = req.query.creatorId;
   const categories = await Occassion.findAndCountAll({
     limit: 100,
     offset: 0,
-    where: {},
+    where: {
+      others: {
+        creatorId: {
+          [sequelize.Op.like]: creatorId,
+        },
+      }, // where ends
+    },
     include: [Menu, Response],
     order: [
       ['createdAt', 'DESC'],

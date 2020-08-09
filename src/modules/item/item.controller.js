@@ -1,6 +1,7 @@
 import HTTPStatus from 'http-status';
 import Item from './item.model';
 import Category from '../category/category.model';
+import sequelize from '../../db';
 
 export const getItem = async (req, res) => {
   const id = req.params.id;
@@ -16,10 +17,17 @@ export const getItem = async (req, res) => {
 };
 
 export const getAllItemRecords = async (req, res) => {
+  const creatorId = req.query.creatorId;
   const categories = await Item.findAndCountAll({
     limit: 100,
     offset: 0,
-    where: {},
+    where: {
+      others: {
+        creatorId: {
+          [sequelize.Op.like]: creatorId,
+        },
+      }, // where ends
+    },
     include: [Category],
     order: [
       ['createdAt', 'DESC'],

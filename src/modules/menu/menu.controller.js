@@ -1,5 +1,6 @@
 import HTTPStatus from 'http-status';
 import Menu from './menu.model';
+import sequelize from '../../db';
 
 export const getMenu = async (req, res) => {
   const id = req.params.id;
@@ -13,10 +14,17 @@ export const getMenu = async (req, res) => {
 };
 
 export const getAllMenuRecords = async (req, res) => {
+  const creatorId = req.query.creatorId;
   const categories = await Menu.findAndCountAll({
     limit: 100,
     offset: 0,
-    where: {},
+    where: {
+      others: {
+        creatorId: {
+          [sequelize.Op.like]: creatorId,
+        },
+      }, // where ends
+    },
     order: [
       ['createdAt', 'DESC'],
     ],

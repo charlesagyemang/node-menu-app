@@ -2,6 +2,8 @@ import HTTPStatus from 'http-status';
 import Event from './event.model';
 import User from '../user/user.model';
 import Attendee from '../attendee/attendee.model';
+import sequelize from '../../db';
+
 
 export const getEvent = async (req, res) => {
   const id = req.params.id;
@@ -19,7 +21,15 @@ export const getEvent = async (req, res) => {
 };
 
 export const getAllEvents = async (req, res) => {
-  const events = await Event.findAll({ where: {},
+  const creatorId = req.query.creatorId;
+  const events = await Event.findAll({
+    where: {
+      others: {
+        creatorId: {
+          [sequelize.Op.like]: creatorId,
+        },
+      }, // where ends
+    },
     include: [User, Attendee],
   });
 
