@@ -1,6 +1,6 @@
 import HTTPStatus from 'http-status';
 import request from 'supertest-as-promised';
-import { nuke } from '../../../helpers/test_helpers';
+import { nuke, login } from '../../../helpers/test_helpers';
 import server from '../../../server';
 
 describe('User::Routes', async () => {
@@ -26,6 +26,29 @@ describe('User::Routes', async () => {
     expect(res.statusCode).toBe(HTTPStatus.OK);
     expect(res.body).toHaveProperty('id');
     expect(res.body).toHaveProperty('token');
+  });
+
+  it.only('should update user successfully', async () => {
+    const { user, auth } = await login(server);
+
+    await request(server).post(`/api/users/update/${user.id}`).send({
+      email: 'test1@email.com',
+      name: 'charles1',
+      password: 'password1',
+    }).set(auth);
+
+    const res = await request(server).post('/api/users/login').send({
+      email: 'test1@email.com',
+      password: 'password1',
+    });
+
+    console.log(res.body);
+    // console.log(auth);
+    // console.log(res.body);
+
+    // expect(res.statusCode).toBe(HTTPStatus.OK);
+    // expect(res.body).toHaveProperty('id');
+    // expect(res.body).toHaveProperty('token');
   });
 
 
